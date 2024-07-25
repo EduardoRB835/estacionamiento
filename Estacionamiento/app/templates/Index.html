@@ -1,0 +1,35 @@
+<!-- Extiende el layout base que tiene Bootstrap y otros scripts -->
+{% extends 'layout.html' %}
+
+<!-- Contenido específico para esta página -->
+{% block content %}
+    <div class="container">
+<style>
+    .card {
+        background-color: rgba(255, 255, 255, 0.43); /* Cambia el último valor (0.8) para ajustar la opacidad */
+        /* Otros estilos opcionales */
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+</style>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Bienvenido</h2>
+                    <p class="card-text text-center">Por favor inicia sesión para continuar.</p>
+                    <div class="text-center">
+                        <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg">Iniciar Sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+
