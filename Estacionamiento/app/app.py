@@ -9,6 +9,9 @@ from email.mime.multipart import MIMEMultipart
 import re
 from functools import wraps
 from flask import redirect, url_for
+import os  # Asegúrate de importar el módulo os
+from dotenv import load_dotenv
+
 
 app = Flask(__name__)
 app.secret_key = 'mysecretkey'
@@ -16,11 +19,14 @@ app.secret_key = 'mysecretkey'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000 
 csrf = CSRFProtect(app)
 
+
+load_dotenv()  # Carga las variables del archivo .env
 # Configuración para MySQL
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'estacionamiento'
+app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST', 'localhost')
+app.config['MYSQL_USER'] = os.getenv('MYSQL_USER', 'root')
+app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD', '')
+app.config['MYSQL_DB'] = os.getenv('MYSQL_DB', 'estacionamiento')
+
 
 # Función para conectar a la base de datos MySQL
 def get_db_connection():
@@ -123,10 +129,7 @@ def registro_autos():
             finally:
                 conn.close()
 
-        # Determinar el rol del usuario para la plantilla
-        user_role = session.get('role', 'empleado')  # Default to 'empleado' if no role is found
-
-        return render_template('registro_auto.html', user_role=user_role)
+        return render_template('registro_auto.html')
     else:
         return redirect(url_for('login'))
 
